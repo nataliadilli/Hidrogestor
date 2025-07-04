@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Residências Cadastradas - Gestão de Água</title>
+    <script src="script_lista.js"></script>
+    <link rel="stylesheet" href="style_lista.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li> <a href="../Pagina_principal/index_principal.html"> Página Principal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>Residentes Cadastrados</h1>
+            <p>Segue todos os residentes cadastrados em nosso sistema.</p>
+        </header>
+
+        <main class="content">
+            <div class="residents-list" id="residentsList">
+                <!--Os residentes serão carregados pelo JavaScript -->
+            </div>
+
+            <div class="loading" id="loading">
+                <p>Carregando residências...</p>
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <p>Nenhuma residência cadastrada encontrada.</p>
+            </div>
+        </main>
+
+        <footer class="page-footer">
+            <button class="btn-primary" onclick="window.location.href='../Cadastro/index_cadastro.html'">
+                Cadastrar Nova Residência
+            </button>
+        </footer>
+    </div>
+
+    <!-- Modal de confirmação de exclusão -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h3>⚠️ Confirmar Exclusão</h3>
+            <p>Tem certeza que deseja excluir o residente <strong id="deleteResidentName"></strong>?</p>
+            <p style="font-size: 0.9rem; color: #718096;">Esta ação não pode ser desfeita.</p>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Cancelar</button>
+                <button class="btn-confirm" onclick="confirmDelete()">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+    <footer class="final-footer">
+        <p>&copy; HidroGestor</p>
+    </footer>
+</body>
+
+
+</body>
+
+</html>

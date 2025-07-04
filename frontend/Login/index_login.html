@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulário de Cadastro</title>
+  <script src="script_login.js" defer></script>
+  <link rel="stylesheet" href="style_login.css" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li> <a href="../Pagina_suporte/index_suporte.html"> Suporte</a></li>
+            </ul>
+        </nav>
+    </header>
+  <div class="container">
+    <div class="cabecalho">Preencha seus dados</div>
+
+
+    <div>
+        <div class="descricoes"></div>
+        <input type="text" id="nome" class="campo" placeholder="Nome" required />
+
+        <div class="descricoes"> </div>
+        <input type="password" id="senha" class="campo" placeholder="Senha" required />
+
+        <p>Esqueceu sua senha? <a href="#">Clique aqui</a></p>
+
+        <input type="button" value="Entrar" id="login" class="login" onclick="Entrar()" />
+
+        <P> Ainda não possui uma conta? <a href="../Cadastro/index_cadastro.html">Cadastre-se</a></P>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; HidroGestor</p>
+  </footer>
+  
+</body>
+
+</html>
