@@ -57,5 +57,7 @@ Natália Carolina Dilli;
 
 Projeto desenvolvido para [Curso de análise e desenvolvimento de sistemas /Universidade do Oeste de Santa Catarina– UNOESC/Comunidade Olho D'Água].
 
+# Como utilizar
 
+Colar os scripts de criação das tabelas e do banco de dados
 
