@@ -21,7 +21,6 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME
 });
 
-
 // Conectando com o banco de dados
 db.connect((err) => {
   if (err) {
@@ -64,9 +63,9 @@ app.post("/login", (req, res) => {
     if (results.length > 0) {
       const usuario = results[0];
       delete usuario.tx_senha;
-      return res.json({ 
-        message: "Login bem-sucedido", 
-        usuario: usuario 
+      return res.json({
+        message: "Login bem-sucedido",
+        usuario: usuario
       });
     } else {
       return res.status(401).json({ error: "Credenciais inválidas" });
@@ -98,6 +97,14 @@ app.delete("/excluirUsuario/:id", (req, res) => {
   });
 });
 
+//GET
+app.get("/listarFaturas/:id", (req, res) => {
+  const id = req.params.id;
 
-
+  db.query("select fatura.nr_mes mesLido,fatura.vl_fatura valorFatura, fatura.dt_leitura dataLeitura from tb_fatura fatura inner join tb_residente residente on residente.id_residente = fatura.cd_residente where residente.nr_unidadeconsumidora = ?", [id], (err, results) => {
+    if (err) return res.status(500).json(err);
+    if (results.length === 0) return res.status(404).json({ error: "Residente não encontrado" });
+    res.json(results);
+  });
+});
 

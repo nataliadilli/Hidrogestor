@@ -123,6 +123,10 @@ function adicionarLeitura() {
                 window.location.href = '../.html';
                 removerMensagemCarregamento();
             }, 1000);
+
+            //  Direcionando usuário do tipo 0 para página de regsitro de leitura
+            window.location.href = '../Registrar_leitura/index_leitura.html';
+
         } else {
             // Usuário não é contador
             alert('Acesso negado!\nEsta área é restrita aos contadores do sistema.');
@@ -186,7 +190,7 @@ function faturas() {
             mostrarMensagemCarregamento('Carregando lista de residentes...');
 
             setTimeout(() => {
-                window.location.href = '../Lista_faturas/index_lista_faturas.html';
+                window.location.href = '../Lista_faturas/index_lista_fatura.html';
             }, 1000);
         } else {
             alert('Acesso negado!\nEsta área é restrita aos contadores e clientes do sistema.');

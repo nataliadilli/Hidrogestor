@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de faturas</title>
+    <script src="script_lista_fatura.js"></script>
+    <link rel="stylesheet" href="style_lista_fatura.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li> <a href="../Pagina_principal/index_principal.html"> Página Principal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>Listagem faturas</h1>
+
+        </header>
+
+        <main class="content">
+
+            <table id="faturasTable" class="fatura-table" style="display: none;">
+
+                <thead>
+                    <tr>
+                        <th>Mês Lido</th>
+                        <th>Valor da Fatura</th>
+                        <th>Data de Leitura</th>
+                    </tr>
+                </thead>
+                <tbody id="residentsList"></tbody>
+            </table>
+
+            <div class="loading" id="loading">
+                <p>Carregando faturas...</p>
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <p>Nenhuma fatura encontrada para esta unidade consumidora</p>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="script_lista_fatura.js"></script>
+</body>
+
+<footer class="final-footer">
+    <p>&copy; HidroGestor</p>
+</footer>
+</body>
+
+</body>
+
+</html>
