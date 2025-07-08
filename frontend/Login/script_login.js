@@ -9,26 +9,31 @@ async function Entrar() {
         return;
     }
 
-        try {
+    try {
         // Buscar todos os usuários
-        const response = await fetch('http://localhost:3000/listarUsuarios');
-        
+        const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nome: nome,
+                senha: senha
+            })
+        });
+
         if (!response.ok) {
             throw new Error('Erro ao buscar usuários');
         }
 
-        const usuarios = await response.json();
-
-        // Verificar credenciais
-        const usuarioEncontrado = usuarios.find(usuario => 
-            usuario.tx_nome === nome && usuario.tx_senha === senha
-        );
+        const usuarioResponse = await response.json();
+        const usuarioEncontrado = usuarioResponse.usuario;
 
         if (usuarioEncontrado) {
             alert(`Bem-vindo, ${usuarioEncontrado.tx_nome}!`);
-            
+
             localStorage.setItem('usuarioLogado', JSON.stringify(usuarioEncontrado));
-            
+
             window.location.href = '../Pagina_principal/index_principal.html';
         } else {
             alert('Nome ou senha incorretos');
@@ -62,13 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const usuarioLogado = localStorage.getItem('usuarioLogado');
     const paginaAtual = window.location.pathname;
-    
+
     // Redirecionar apenas se não estiver na página de login
     if (usuarioLogado && !paginaAtual.includes('index_login.html')) {
         window.location.href = '../Pagina_inicial/index.html';
     }
 });
-
-
-
 

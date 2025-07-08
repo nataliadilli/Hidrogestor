@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HidroGestor - Nova Leitura</title>
+  <script src="script_leitura.js" defer></script>
+  <link rel="stylesheet" href="style_leitura.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="nav-container">
+        <h1 class="logo">HidroGestor</h1>
+        <div class="user-info">
+          <span id="usuario-nome">Usuário</span>
+          <button class="btn-sair" onclick="sair()">Sair</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="form-section">
+        <h2>Registrar Leitura</h2>
+        <p>Informe os dados da leitura de consumo</p>
+
+        <form id="form-leitura">
+          <label for="nr_mes">Mês da Leitura</label>
+          <input type="number" id="nr_mes" name="nr_mes" min="1" max="12" required />
+
+          <label for="qt_consumo">Quantidade Consumida (m³)</label>
+          <input type="number" id="qt_consumo" name="qt_consumo" step="0.01" min="0" required />
+
+          <label for="nr_unidadeconsumidora">Unidade Consumidora</label>
+          <input type="text" id="nr_unidadeconsumidora" name="nr_unidadeconsumidora" required />
+
+          <button type="submit" class="btn-enviar" onclick="registrar_leitura()">Registrar</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; HidroGestor</p>
+    </div>
+  </footer>
+
+  <script>
+    function sair() {
+      window.location.href = '../../index.html';
+    }
+
+  </script>
+</body>
+</html>
