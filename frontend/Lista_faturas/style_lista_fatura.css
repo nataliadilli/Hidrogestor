@@ -439,7 +439,7 @@ body {
 .fatura-table th,
 .fatura-table td {
     padding: 15px 20px;
-    text-align: left;
+    text-align: center;
     font-size: 0.95rem;
 }
 
@@ -461,5 +461,5 @@ body {
 }
 
 .fatura-table td:last-child {
-    text-align: right;
+    text-align: center;
 }
