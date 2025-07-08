@@ -1,36 +1,35 @@
 // Verificação de autenticação e carregamento da página
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     // Carregar informações do usuário
     carregarInformacoesUsuario();
-    
+
 });
 
 // Função para carregar informações do usuário
 function carregarInformacoesUsuario() {
     const usuarioLogado = localStorage.getItem('usuarioLogado');
-    
+
     if (usuarioLogado) {
         try {
             const dadosUsuario = JSON.parse(usuarioLogado);
             // Verificar diferentes possíveis campos de nome
             const nomeUsuario = dadosUsuario.tx_nome || dadosUsuario.nome || 'Usuário';
-            
+
             // Atualizar nome do usuário na interface
             const elementoNome = document.getElementById('usuario-nome');
             if (elementoNome) {
                 elementoNome.textContent = `${nomeUsuario}, você está acessando a área de registro de consumo!`;
             }
-            
+
             // Armazenar tipo de usuário para verificações posteriores
             window.tipoUsuario = dadosUsuario.tipo_usuario;
-            
+
         } catch (error) {
             console.error('Erro ao carregar dados do usuário:', error);
         }
     }
 }
-
 
 function registrar_leitura() {
 
@@ -53,13 +52,17 @@ function registrar_leitura() {
         return alert("Por favor preencha o campo Número da Unidade Consumidora");
     }
 
-
     // Obtém a data atual no formato compatível com MySQL TIMESTAMP
     let data_registro = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
+
+    const dadosUsuario = JSON.parse(usuarioLogado);
 
     // Objeto organizado conforme colunas do banco de dados
     let objetoLeitura = {
+
+        id_residente: dadosUsuario.id_residente,
         nr_unidadeconsumidora: nr_unidadeconsumidora,
         qt_consumo: qt_consumo,
         nr_mes: nr_mes,
@@ -79,17 +82,15 @@ function registrar_leitura() {
         .then(data => {
             alert("Leitura adicionada com sucesso!");
             setTimeout(() => {
-                window.location.href = '../Login/index_login.html';
+                window.location.href = '../Pagina_principal/index_principal.html';
             });
-            
+
         })
-        
+
         .catch(error => {
             console.error("Erro ao adicionar leitura:", error);
         });
 
-    
     document.getElementById("formulario").reset();
 }
-
 

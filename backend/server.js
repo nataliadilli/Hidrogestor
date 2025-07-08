@@ -127,8 +127,8 @@ app.post("/gravarNovaLeitura", (req, res) => {
       console.log("Leitura registrada. Criando fatura...");
 
       db.query(
-        "INSERT INTO tb_fatura(nr_unidadeconsumidora, nr_mes, vl_fatura, cd_residente) VALUES(?, ?, ?, ?);",
-        [nr_unidadeconsumidora, nr_mes, calculoFatura, id_residente],
+        "INSERT INTO tb_fatura(nr_mes, vl_fatura, cd_residente) VALUES(?, ?, ?);",
+        [nr_mes, calculoFatura, id_residente],
         (err2, results2) => {
           if (err2) {
             console.error("Erro ao gravar fatura:", err2);
