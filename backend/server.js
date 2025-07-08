@@ -108,3 +108,37 @@ app.get("/listarFaturas/:id", (req, res) => {
   });
 });
 
+app.post("/gravarNovaLeitura", (req, res) => {
+  let { id_residente, nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro } = req.body;
+
+  let calculoFatura = qt_consumo * 45.72;
+
+  console.log("Registrando leitura...");
+
+  db.query(
+    "INSERT INTO tb_leitura(id_residente, nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro) VALUES(?, ?, ?, ?, ?)",
+    [id_residente, nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro],
+    (err, results) => {
+      if (err) {
+        console.error("Erro ao gravar leitura:", err);
+        return res.status(500).json({ erro: "Erro ao gravar leitura", detalhes: err });
+      }
+
+      console.log("Leitura registrada. Criando fatura...");
+
+      db.query(
+        "INSERT INTO tb_fatura(nr_unidadeconsumidora, nr_mes, vl_fatura, cd_residente) VALUES(?, ?, ?, ?);",
+        [nr_unidadeconsumidora, nr_mes, calculoFatura, id_residente],
+        (err2, results2) => {
+          if (err2) {
+            console.error("Erro ao gravar fatura:", err2);
+            return res.status(500).json({ erro: "Erro ao gravar fatura", detalhes: err2 });
+          }
+
+          console.log("Fatura criada com sucesso");
+          res.json({ message: "Nova leitura e fatura adicionadas com sucesso" });
+        }
+      );
+    }
+  );
+});
