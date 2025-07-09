@@ -77,12 +77,38 @@ app.post("/login", (req, res) => {
 
 //POST
 app.post("/gravarNovoUsuario", (req, res) => {
+    const { nome, nr_unidadeconsumidora, cpf, tipo_usuario, senha, data_cadastro } = req.body;
+    
+    db.query("INSERT INTO tb_residente(tx_nome, nr_unidadeconsumidora, tx_cpf, tipo_usuario, tx_senha, data_cadastro) VALUES(?, ?, ?, ?, ?, ?)", 
+    [nome, nr_unidadeconsumidora, cpf, tipo_usuario, senha, data_cadastro], (err, results) => {
+        if (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(400).json({ error: "CPF ou Unidade Consumidora já cadastrados" });
+            }
+            return res.status(500).json(err);
+        }
+        res.json({ message: "Novo usuario adicionado", id: results.insertId });
+    });
+});
 
-  const { nome, nr_unidadeconsumidora, tipo_usuario, senha, data_cadastro } = req.body;
-  db.query("INSERT INTO tb_residente( tx_nome, nr_unidadeconsumidora, tipo_usuario, tx_senha, data_cadastro) VALUES(?, ?, ?, ?, ?);", [nome, nr_unidadeconsumidora, tipo_usuario, senha, data_cadastro], (err, results) => {
-    if (err) return res.status(500).json(err);
-    res.json({ message: "Novo usuario adicionado", id: results.insertId });
-  });
+// Endpoint para verificar duplicatas - adicionar no seu server.js
+app.post("/verificarDuplicatas", (req, res) => {
+    const { cpf, nr_unidadeconsumidora } = req.body;
+    
+    // Verificar CPF
+    db.query("SELECT COUNT(*) as count FROM tb_residente WHERE tx_cpf = ?", [cpf], (err, cpfResults) => {
+        if (err) return res.status(500).json({ erro: true });
+        
+        // Verificar Unidade Consumidora
+        db.query("SELECT COUNT(*) as count FROM tb_residente WHERE nr_unidadeconsumidora = ?", [nr_unidadeconsumidora], (err, unidadeResults) => {
+            if (err) return res.status(500).json({ erro: true });
+            
+            res.json({
+                cpf_existe: cpfResults[0].count > 0,
+                unidade_existe: unidadeResults[0].count > 0
+            });
+        });
+    });
 });
 
 //Exclusão de usuarios

@@ -13,7 +13,7 @@
   "dependencies": {
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
-    "dotenv": "^17.0.1",
+    "dotenv": "^17.1.0",
     "express": "^5.1.0",
     "json-server": "^1.0.0-beta.3",
     "mysql2": "^3.14.1"
