@@ -55,14 +55,8 @@ function registrar_leitura() {
     // Obtém a data atual no formato compatível com MySQL TIMESTAMP
     let data_registro = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-    const usuarioLogado = localStorage.getItem('usuarioLogado');
-
-    const dadosUsuario = JSON.parse(usuarioLogado);
-
     // Objeto organizado conforme colunas do banco de dados
     let objetoLeitura = {
-
-        id_residente: dadosUsuario.id_residente,
         nr_unidadeconsumidora: nr_unidadeconsumidora,
         qt_consumo: qt_consumo,
         nr_mes: nr_mes,

@@ -221,7 +221,7 @@ function historico() {
             mostrarMensagemCarregamento('Carregando lista de residentes...');
 
             setTimeout(() => {
-                window.location.href = '../.html';
+                window.location.href = '../Lista_leituras/index_lista_leitura.html';
             }, 1000);
         } else {
             alert('Acesso negado!\nEsta área é restrita aos contadores e clientes do sistema.');

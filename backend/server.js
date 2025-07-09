@@ -101,7 +101,7 @@ app.delete("/excluirUsuario/:id", (req, res) => {
 app.get("/listarFaturas/:id", (req, res) => {
   const id = req.params.id;
 
-  db.query("select fatura.nr_mes mesLido,fatura.vl_fatura valorFatura, fatura.dt_leitura dataLeitura from tb_fatura fatura inner join tb_residente residente on residente.id_residente = fatura.cd_residente where residente.nr_unidadeconsumidora = ?", [id], (err, results) => {
+  db.query("select fatura.nr_mes mesLido,fatura.vl_fatura valorFatura, fatura.dt_leitura dataLeitura from tb_fatura fatura where fatura.nr_unidadeconsumidora = ? order by nr_mes asc", [id], (err, results) => {
     if (err) return res.status(500).json(err);
     if (results.length === 0) return res.status(404).json({ error: "Residente não encontrado" });
     res.json(results);
@@ -109,15 +109,15 @@ app.get("/listarFaturas/:id", (req, res) => {
 });
 
 app.post("/gravarNovaLeitura", (req, res) => {
-  let { id_residente, nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro } = req.body;
+  let { nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro } = req.body;
 
   let calculoFatura = qt_consumo * 45.72;
 
   console.log("Registrando leitura...");
 
   db.query(
-    "INSERT INTO tb_leitura(id_residente, nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro) VALUES(?, ?, ?, ?, ?)",
-    [id_residente, nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro],
+    "INSERT INTO tb_leitura(nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro) VALUES(?, ?, ?, ?)",
+    [nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro],
     (err, results) => {
       if (err) {
         console.error("Erro ao gravar leitura:", err);
@@ -127,8 +127,8 @@ app.post("/gravarNovaLeitura", (req, res) => {
       console.log("Leitura registrada. Criando fatura...");
 
       db.query(
-        "INSERT INTO tb_fatura(nr_mes, vl_fatura, cd_residente) VALUES(?, ?, ?);",
-        [nr_mes, calculoFatura, id_residente],
+        "INSERT INTO tb_fatura(nr_mes, vl_fatura, nr_unidadeconsumidora) VALUES(?, ?, ?);",
+        [nr_mes, calculoFatura, nr_unidadeconsumidora],
         (err2, results2) => {
           if (err2) {
             console.error("Erro ao gravar fatura:", err2);
@@ -141,4 +141,14 @@ app.post("/gravarNovaLeitura", (req, res) => {
       );
     }
   );
+});
+
+app.get("/listarLeitura/:id", (req, res) => {
+  const id = req.params.id;
+
+  db.query("select qt_consumo as quantidadeConsumida, nr_mes as mesLido, data_registro as dataLeitura from tb_leitura tl where tl.nr_unidadeconsumidora = ? order by nr_mes asc;", [id], (err, results) => {
+    if (err) return res.status(500).json(err);
+    if (results.length === 0) return res.status(404).json({ error: "Leitura não encontrado" });
+    res.json(results);
+  });
 });

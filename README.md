@@ -59,5 +59,34 @@ Projeto desenvolvido para [Curso de análise e desenvolvimento de sistemas /Univ
 
 # Como utilizar
 
-Colar os scripts de criação das tabelas e do banco de dados
+create database gestor;
+drop table tb_fatura;
+drop table tb_leitura;
+drop table tb_residente;
+
+CREATE TABLE tb_residente (
+    id_residente INT auto_increment primary key,
+    tx_nome VARCHAR(150) not null,
+    nr_unidadeconsumidora VARCHAR(150) not null,
+    tipo_usuario BOOLEAN NOT NULL DEFAULT 1,
+    tx_senha VARCHAR(255) NOT null,
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE tb_leitura (
+   id_registroconsumo INT AUTO_INCREMENT PRIMARY KEY,
+   nr_unidadeconsumidora VARCHAR(150) NOT NULL,
+   qt_consumo DECIMAL(10,2) NOT NULL,
+   nr_mes TINYINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
+   data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   UNIQUE (nr_unidadeconsumidora, nr_mes)
+);
+
+CREATE TABLE tb_fatura (
+   id_fatura INT AUTO_INCREMENT PRIMARY KEY,
+   nr_mes TINYINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
+   dt_leitura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   vl_fatura numeric(18,2) NOT NULL,
+   nr_unidadeconsumidora VARCHAR(150) NOT NULL
+);
 
