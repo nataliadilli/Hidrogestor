@@ -17,14 +17,23 @@ function formatDate(dateString) {
 }
 
 // Função para determinar o tipo de usuário
-function getUserType(isAdmin) {
-    return isAdmin ? 'Contador/Tesoureiro' : 'Residente';
+function getUserType(tipo_usuario) {
+    if (tipo_usuario == 0) {
+        return 'admin';
+    } else {
+        return 'user';
+    }
+}
+
+// Função para obter o texto do tipo de usuário
+function getUserTypeText(tipo_usuario) {
+    return tipo_usuario == 0 ? 'Contador/Tesoureiro' : 'Residente';
 }
 
 // Função para criar um card de residente
 function createResidentCard(resident) {
-    const userTypeClass = resident.tipo_usuario ? 'admin' : 'user';
-    const userTypeText = getUserType(resident.tipo_usuario);
+    const userTypeClass = getUserType(resident.tipo_usuario);
+    const userTypeText = getUserTypeText(resident.tipo_usuario);
     
     return `
         <div class="resident-card">
@@ -105,7 +114,7 @@ async function loadResidents() {
     }
 }
 
-// Função para buscar dados da API do seu servidor
+// Função para buscar dados da API do servidor
 async function fetchResidentsFromAPI() {
     try {
         console.log('Buscando residentes da API...');

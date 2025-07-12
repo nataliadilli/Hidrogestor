@@ -249,10 +249,10 @@ function suporte() {
         // Libera acesso aos dois tipos de usuarios
         if (tipoUsuario === 0 || tipoUsuario === 1) {
 
-            mostrarMensagemCarregamento('Carregando lista de residentes...');
+            mostrarMensagemCarregamento('Carregando os contatos para suporte...');
 
             setTimeout(() => {
-                window.location.href = '../.html';
+                window.location.href = '../Suporte/index_suporte.html';
             }, 1000);
         } else {
             alert('Acesso negado!\nEsta área é restrita aos contadores e clientes do sistema.');
