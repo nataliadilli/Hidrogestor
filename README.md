@@ -57,36 +57,69 @@ Natália Carolina Dilli;
 
 Projeto desenvolvido para [Curso de análise e desenvolvimento de sistemas /Universidade do Oeste de Santa Catarina– UNOESC/Comunidade Olho D'Água].
 
-# Como utilizar
+## 🗃️ Criação do banco de dados
 
-create database gestor;
-drop table tb_fatura;
-drop table tb_leitura;
-drop table tb_residente;
+```sql
+CREATE DATABASE gestor;
+```
 
+## 📋 Tabelas
+
+### `tb_residente`
+
+```sql
 CREATE TABLE tb_residente (
     id_residente INT auto_increment primary key,
-    tx_nome VARCHAR(150) not null,
-    nr_unidadeconsumidora VARCHAR(150) not null,
+    tx_nome VARCHAR(150) NOT NULL,
+    nr_unidadeconsumidora VARCHAR(150) NOT NULL,
+    tx_cpf VARCHAR(14) NOT NULL,
     tipo_usuario BOOLEAN NOT NULL DEFAULT 1,
-    tx_senha VARCHAR(255) NOT null,
-    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    tx_senha VARCHAR(255) NOT NULL,
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (nr_unidadeconsumidora, tx_cpf)
 );
+```
 
+### `tb_leitura`
+
+```sql
 CREATE TABLE tb_leitura (
-   id_registroconsumo INT AUTO_INCREMENT PRIMARY KEY,
-   nr_unidadeconsumidora VARCHAR(150) NOT NULL,
-   qt_consumo DECIMAL(10,2) NOT NULL,
-   nr_mes TINYINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
-   data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   UNIQUE (nr_unidadeconsumidora, nr_mes)
+    id_registroconsumo INT AUTO_INCREMENT PRIMARY KEY,
+    nr_unidadeconsumidora VARCHAR(150) NOT NULL,
+    qt_consumo DECIMAL(10,2) NOT NULL,
+    nr_mes TINYINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
+    data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (nr_unidadeconsumidora, nr_mes)
 );
+```
 
+### `tb_fatura`
+
+```sql
 CREATE TABLE tb_fatura (
-   id_fatura INT AUTO_INCREMENT PRIMARY KEY,
-   nr_mes TINYINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
-   dt_leitura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   vl_fatura numeric(18,2) NOT NULL,
-   nr_unidadeconsumidora VARCHAR(150) NOT NULL
+    id_fatura INT AUTO_INCREMENT PRIMARY KEY,
+    nr_mes TINYINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
+    dt_leitura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    vl_fatura numeric(18,2) NOT NULL,
+    nr_unidadeconsumidora VARCHAR(150) NOT NULL
 );
+```
 
+## 🔍 Consultas
+
+Para visualizar os dados:
+
+```sql
+select * from tb_residente;
+select * from tb_leitura;
+select * from tb_fatura;
+```
+
+---
+
+📝 Observações
+
+- As tabelas tb_residente e tb_leitura possuem restrições de unicidade para evitar duplicações
+- O campo tipo_usuario utiliza valor padrão 1 (ativo)
+- Todos os campos de data utilizam TIMESTAMP com valor padrão CURRENT_TIMESTAMP
+- Os valores monetários são armazenados como DECIMAL para precisão
