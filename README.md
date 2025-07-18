@@ -8,7 +8,7 @@ Este repositório contém os diagramas de um sistema completo para gerenciamento
 
 - [Sobre o Projeto](#sobre-o-projeto)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Diagramas do Sistema](#diagramas-do-sistema)
+- [Diagramas do Sistema e Apresentação](#diagramas-do-sistema)
 - [Autores](#autores)
 
 ---
@@ -32,8 +32,11 @@ O sistema permite:
 - **Banco de Dados:** MySQL.
 ---
 
-🧩 Diagramas do Sistema
-Todos os diagramas estão organizados na pasta docs/diagramas:
+## 🧩 Diagramas do Sistema
+
+Todos os diagramas e a apresentação estão organizados na pasta docs:
+
+**Apresentação**
 
 **Diagramas de Atividade:** Fluxo de processos do sistema;
 
