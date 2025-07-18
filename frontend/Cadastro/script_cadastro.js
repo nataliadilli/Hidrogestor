@@ -41,7 +41,7 @@ async function registrar() {
         const verificacao = await fetch("http://localhost:3000/verificarDuplicatas", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cpf, nr_unidadeconsumidora })
+            body: JSON.stringify({ cpf, nr_unidadeconsumidora, nome })
         });
         
         const dados = await verificacao.json();
@@ -52,6 +52,14 @@ async function registrar() {
         }
         if (dados.unidade_existe) {
             return alert("Esta Unidade Consumidora já está cadastrada no sistema!");
+        }
+        if (dados.nome_existe) {
+            return alert("Este Nome já está cadastrado no sistema!");
+        }
+
+        // Verificar limite de contadores
+        if (tipo_usuario === '0' && dados.total_contadores >= 2) {
+            return alert("Já existe o máximo permitido de contadores cadastrados no sistema!");
         }
     } catch (error) {
         console.error("Erro na verificação:", error);
@@ -78,11 +86,36 @@ async function registrar() {
         body: JSON.stringify(objetoCadastro)
     })
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
         alert("Residente adicionado com sucesso!");
-        setTimeout(() => {
+
+        // Realizar login automático após o cadastro
+        try {
+            const loginResponse = await fetch("http://localhost:3000/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nome, senha })
+            });
+
+            if (!loginResponse.ok) {
+                throw new Error("Erro ao realizar login automático.");
+            }
+
+            const loginData = await loginResponse.json();
+            const usuarioLogado = loginData.usuario;
+
+            if (usuarioLogado) {
+                localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+                alert(`Bem-vindo, ${usuarioLogado.tx_nome}!`);
+                window.location.href = '../Pagina_principal/index_principal.html';
+            } else {
+                throw new Error("Usuário não encontrado após o cadastro.");
+            }
+        } catch (error) {
+            console.error("Erro no login automático:", error);
+            alert("Erro ao realizar login automático. Por favor, faça login manualmente.");
             window.location.href = '../Login/index_login.html';
-        }, 1000);
+        }
     })
     .catch(error => {
         console.error("Erro ao adicionar residente:", error);
@@ -91,4 +124,5 @@ async function registrar() {
 
     document.getElementById("formulario").reset();
 }
+
 

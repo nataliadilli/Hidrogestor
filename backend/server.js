@@ -91,21 +91,33 @@ app.post("/gravarNovoUsuario", (req, res) => {
     });
 });
 
-// Endpoint para verificar duplicatas - adicionar no seu server.js
+// Endpoint para verificar duplicatas 
 app.post("/verificarDuplicatas", (req, res) => {
-    const { cpf, nr_unidadeconsumidora } = req.body;
-    
+    const { cpf, nr_unidadeconsumidora, nome } = req.body;
+
     // Verificar CPF
     db.query("SELECT COUNT(*) as count FROM tb_residente WHERE tx_cpf = ?", [cpf], (err, cpfResults) => {
         if (err) return res.status(500).json({ erro: true });
-        
+
         // Verificar Unidade Consumidora
         db.query("SELECT COUNT(*) as count FROM tb_residente WHERE nr_unidadeconsumidora = ?", [nr_unidadeconsumidora], (err, unidadeResults) => {
             if (err) return res.status(500).json({ erro: true });
-            
-            res.json({
-                cpf_existe: cpfResults[0].count > 0,
-                unidade_existe: unidadeResults[0].count > 0
+
+            // Verificar Nome
+            db.query("SELECT COUNT(*) as count FROM tb_residente WHERE tx_nome = ?", [nome], (err, nomeResults) => {
+                if (err) return res.status(500).json({ erro: true });
+
+                // Verificar total de contadores
+                db.query("SELECT COUNT(*) as count FROM tb_residente WHERE tipo_usuario = 0", (err, contadorResults) => {
+                    if (err) return res.status(500).json({ erro: true });
+
+                    res.json({
+                        cpf_existe: cpfResults[0].count > 0,
+                        unidade_existe: unidadeResults[0].count > 0,
+                        nome_existe: nomeResults[0].count > 0,
+                        total_contadores: contadorResults[0].count
+                    });
+                });
             });
         });
     });

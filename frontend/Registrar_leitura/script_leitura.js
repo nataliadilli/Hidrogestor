@@ -52,8 +52,8 @@ function registrar_leitura() {
         return alert("Por favor preencha o campo Número da Unidade Consumidora");
     }
 
-    // Obtém a data atual no formato compatível com MySQL TIMESTAMP
-    let data_registro = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    // Obtém a data atual no formato compatível com MySQL TIMESTAMP ajustada para o horário de Brasília (UTC-3)
+    let data_registro = new Date(new Date().getTime() - 3 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');
 
     // Objeto organizado conforme colunas do banco de dados
     let objetoLeitura = {
