@@ -64,6 +64,9 @@ function createResidentCard(resident) {
                     <button class="btn-delete" onclick="openDeleteModal(${resident.id_residente}, '${resident.tx_nome}')">
                          Excluir
                     </button>
+                    <button class="btn-edit" onclick="openEditModal(${resident.id_residente})">
+                         Editar
+                    </button>
                 </div>
             </div>
         </div>
@@ -251,6 +254,10 @@ async function confirmDelete() {
     }
 }
 
+// Função para abrir a página de edição de residente
+function openEditModal(id) {
+    window.location.href = `../Editar_residentes/index_editar.html?id=${id}`;
+}
 
 // Fechar modal quando clicar fora dele
 window.onclick = function(event) {

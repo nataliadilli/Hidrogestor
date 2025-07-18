@@ -123,6 +123,22 @@ app.post("/verificarDuplicatas", (req, res) => {
     });
 });
 
+// Atualizar dados de um usuário
+app.put("/atualizarUsuario/:id", (req, res) => {
+    const id = req.params.id;
+    const { nome, nr_unidadeconsumidora, cpf } = req.body;
+
+    db.query(
+        "UPDATE tb_residente SET tx_nome = ?, nr_unidadeconsumidora = ?, tx_cpf = ? WHERE id_residente = ?",
+        [nome, nr_unidadeconsumidora, cpf, id],
+        (err, results) => {
+            if (err) return res.status(500).json(err);
+            if (results.affectedRows === 0) return res.status(404).json({ error: "Residente não encontrado" });
+            res.json({ message: "Residente atualizado com sucesso" });
+        }
+    );
+});
+
 //Exclusão de usuarios
 
 //DELETE

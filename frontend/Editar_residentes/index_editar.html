@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Residente</title>
+    <script src="script_editar.js" defer></script>
+    <link rel="stylesheet" href="style_editar.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../Lista_residentes/index_lista.html">Voltar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="edit-container">
+        <h1>Editar Residente</h1>
+        <form id="edit-form">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="nr_unidadeconsumidora">Unidade Consumidora:</label>
+            <input type="text" id="nr_unidadeconsumidora" name="nr_unidadeconsumidora" required>
+
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" required>
+
+            <button type="submit" class="btn-primary">Salvar Alterações</button>
+        </form>
+    </div>
+
+    <footer class="final-footer">
+        <p>&copy; HidroGestor </p>
+    </footer>
+</body>
+</html>
