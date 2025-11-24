@@ -4,6 +4,9 @@ const API_BASE_URL = 'http://localhost:3000';
 // Variável para armazenar os dados dos residentes
 let residentsData = [];
 
+// variável global para controlar exclusão (declarada aqui para evitar referência indefinida)
+let residentToDelete = null;
+
 // Função para formatar data
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -154,7 +157,36 @@ async function fetchResidentsFromAPI() {
 // Inicializar a página quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', () => {
     loadResidents();
+    setupHeaderScroll(); // inicializa comportamento do banner ao rolar a página
 });
+
+// Função para criar o comportamento de esconder/exibir o banner conforme scroll
+function setupHeaderScroll() {
+    const pageHeader = document.querySelector('.page-header');
+    if (!pageHeader) return;
+
+    let lastY = window.scrollY || 0;
+    let ticking = false;
+    const threshold = 40;
+
+    const onTick = () => {
+        const currentY = window.scrollY || 0;
+        if (currentY > lastY && currentY > threshold) {
+            pageHeader.classList.add('hidden');
+        } else if (currentY < lastY) {
+            pageHeader.classList.remove('hidden');
+        }
+        lastY = currentY;
+        ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(onTick);
+            ticking = true;
+        }
+    }, { passive: true });
+}
 
 // Função para atualizar a lista (pode ser chamada quando novos dados chegarem)
 async function refreshResidentsList() {

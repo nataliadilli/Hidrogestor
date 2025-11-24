@@ -167,7 +167,6 @@ body {
     transform: translateY(0);
 }
 
-/* Footer */
 .final-footer {
     background-color: #4682B4;
     color: white;
@@ -177,7 +176,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* Responsiveness */
+/* Responsividade */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
