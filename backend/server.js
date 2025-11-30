@@ -51,10 +51,10 @@ app.get("/listarUsuarios", (req, res) => {
 
 //POST
 app.post("/login", (req, res) => {
-  const { nome, senha } = req.body;
+  const { cpf, senha } = req.body;
 
   // Consulta segura para verificar credenciais
-  db.query("SELECT * FROM tb_residente WHERE tx_nome = ? AND tx_senha = ?", [nome, senha], (err, results) => {
+  db.query("SELECT * FROM tb_residente WHERE tx_cpf = ? AND tx_senha = ?", [cpf, senha], (err, results) => {
     if (err) {
       console.error("Erro na verificação de login:", err);
       return res.status(500).json({ error: "Erro interno do servidor" });
@@ -77,66 +77,55 @@ app.post("/login", (req, res) => {
 
 //POST
 app.post("/gravarNovoUsuario", (req, res) => {
-    const { nome, nr_unidadeconsumidora, cpf, tipo_usuario, senha, data_cadastro } = req.body;
-    
-    db.query("INSERT INTO tb_residente(tx_nome, nr_unidadeconsumidora, tx_cpf, tipo_usuario, tx_senha, data_cadastro) VALUES(?, ?, ?, ?, ?, ?)", 
+  const { nome, nr_unidadeconsumidora, cpf, tipo_usuario, senha, data_cadastro } = req.body;
+
+  db.query("INSERT INTO tb_residente(tx_nome, nr_unidadeconsumidora, tx_cpf, tipo_usuario, tx_senha, data_cadastro) VALUES(?, ?, ?, ?, ?, ?)",
     [nome, nr_unidadeconsumidora, cpf, tipo_usuario, senha, data_cadastro], (err, results) => {
-        if (err) {
-            if (err.code === 'ER_DUP_ENTRY') {
-                return res.status(400).json({ error: "CPF ou Unidade Consumidora já cadastrados" });
-            }
-            return res.status(500).json(err);
+      if (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+          return res.status(400).json({ error: "CPF ou Unidade Consumidora já cadastrados" });
         }
-        res.json({ message: "Novo usuario adicionado", id: results.insertId });
+        return res.status(500).json(err);
+      }
+      res.json({ message: "Novo usuario adicionado", id: results.insertId });
     });
 });
 
 // Endpoint para verificar duplicatas 
 app.post("/verificarDuplicatas", (req, res) => {
-    const { cpf, nr_unidadeconsumidora, nome } = req.body;
+  const { cpf, nr_unidadeconsumidora, nome } = req.body;
 
-    // Verificar CPF
-    db.query("SELECT COUNT(*) as count FROM tb_residente WHERE tx_cpf = ?", [cpf], (err, cpfResults) => {
-        if (err) return res.status(500).json({ erro: true });
+  // Verificar CPF
+  db.query("SELECT COUNT(*) as count FROM tb_residente WHERE tx_cpf = ?", [cpf], (err, cpfResults) => {
+    if (err) return res.status(500).json({ erro: true });
 
-        // Verificar Unidade Consumidora
-        db.query("SELECT COUNT(*) as count FROM tb_residente WHERE nr_unidadeconsumidora = ?", [nr_unidadeconsumidora], (err, unidadeResults) => {
-            if (err) return res.status(500).json({ erro: true });
+    // Verificar total de contadores
+    db.query("SELECT COUNT(*) as count FROM tb_residente WHERE tipo_usuario = 0", (err, contadorResults) => {
+      if (err) return res.status(500).json({ erro: true });
 
-            // Verificar Nome
-            db.query("SELECT COUNT(*) as count FROM tb_residente WHERE tx_nome = ?", [nome], (err, nomeResults) => {
-                if (err) return res.status(500).json({ erro: true });
-
-                // Verificar total de contadores
-                db.query("SELECT COUNT(*) as count FROM tb_residente WHERE tipo_usuario = 0", (err, contadorResults) => {
-                    if (err) return res.status(500).json({ erro: true });
-
-                    res.json({
-                        cpf_existe: cpfResults[0].count > 0,
-                        unidade_existe: unidadeResults[0].count > 0,
-                        nome_existe: nomeResults[0].count > 0,
-                        total_contadores: contadorResults[0].count
-                    });
-                });
-            });
-        });
+      res.json({
+        cpf_existe: cpfResults[0].count > 0,
+        total_contadores: contadorResults[0].count
+      });
     });
+  });
 });
+
 
 // Atualizar dados de um usuário
 app.put("/atualizarUsuario/:id", (req, res) => {
-    const id = req.params.id;
-    const { nome, nr_unidadeconsumidora, cpf } = req.body;
+  const id = req.params.id;
+  const { nome, nr_unidadeconsumidora, cpf } = req.body;
 
-    db.query(
-        "UPDATE tb_residente SET tx_nome = ?, nr_unidadeconsumidora = ?, tx_cpf = ? WHERE id_residente = ?",
-        [nome, nr_unidadeconsumidora, cpf, id],
-        (err, results) => {
-            if (err) return res.status(500).json(err);
-            if (results.affectedRows === 0) return res.status(404).json({ error: "Residente não encontrado" });
-            res.json({ message: "Residente atualizado com sucesso" });
-        }
-    );
+  db.query(
+    "UPDATE tb_residente SET tx_nome = ?, nr_unidadeconsumidora = ?, tx_cpf = ? WHERE id_residente = ?",
+    [nome, nr_unidadeconsumidora, cpf, id],
+    (err, results) => {
+      if (err) return res.status(500).json(err);
+      if (results.affectedRows === 0) return res.status(404).json({ error: "Residente não encontrado" });
+      res.json({ message: "Residente atualizado com sucesso" });
+    }
+  );
 });
 
 //Exclusão de usuarios
@@ -165,8 +154,6 @@ app.get("/listarFaturas/:id", (req, res) => {
 app.post("/gravarNovaLeitura", (req, res) => {
   let { nr_unidadeconsumidora, qt_consumo, nr_mes, data_registro } = req.body;
 
-  let calculoFatura = qt_consumo * 45.72;
-
   console.log("Registrando leitura...");
 
   db.query(
@@ -180,19 +167,62 @@ app.post("/gravarNovaLeitura", (req, res) => {
 
       console.log("Leitura registrada. Criando fatura...");
 
-      db.query(
-        "INSERT INTO tb_fatura(nr_mes, vl_fatura, nr_unidadeconsumidora) VALUES(?, ?, ?);",
-        [nr_mes, calculoFatura, nr_unidadeconsumidora],
-        (err2, results2) => {
-          if (err2) {
-            console.error("Erro ao gravar fatura:", err2);
-            return res.status(500).json({ erro: "Erro ao gravar fatura", detalhes: err2 });
-          }
 
-          console.log("Fatura criada com sucesso");
-          res.json({ message: "Nova leitura e fatura adicionadas com sucesso" });
-        }
-      );
+      let mesAnterior = nr_mes;
+
+      if (nr_mes != 1) {
+        mesAnterior--;
+      }
+
+      console.log(mesAnterior)
+
+      if (nr_mes == 1) {
+
+        let calculoFatura = qt_consumo * 8.74;
+
+        db.query(
+          "INSERT INTO tb_fatura(nr_mes, vl_fatura, nr_unidadeconsumidora) VALUES(?, ?, ?);",
+          [nr_mes, calculoFatura, nr_unidadeconsumidora],
+          (err2, results2) => {
+            if (err2) {
+              console.error("Erro ao gravar fatura:", err2);
+              return res.status(500).json({ erro: "Erro ao gravar fatura", detalhes: err2 });
+            }
+
+            console.log("Fatura criada com sucesso");
+            res.json({ message: "Nova leitura e fatura adicionadas com sucesso" });
+          }
+        );
+      } else {
+        db.query("select qt_consumo - ( select qt_consumo from tb_leitura where nr_mes = (?)) as consumo from tb_leitura tl where nr_unidadeconsumidora = ? and nr_mes = ?",
+          [mesAnterior, nr_unidadeconsumidora, nr_mes],
+          (errConsumo, resultConsumoMesAnterior) => {
+
+            if (errConsumo) {
+              console.error("Erro ao buscar consumo do mês anterior:", err);
+              return res.status(500).json({ erro: "Erro ao buscar consumo do mês anterior", detalhes: err });
+            }
+
+
+            let calculoFatura = Number(resultConsumoMesAnterior[0].consumo * 8.74);
+
+            db.query(
+              "INSERT INTO tb_fatura(nr_mes, vl_fatura, nr_unidadeconsumidora) VALUES(?, ?, ?);",
+              [nr_mes, calculoFatura, nr_unidadeconsumidora],
+              (err2, results2) => {
+                if (err2) {
+                  console.error("Erro ao gravar fatura:", err2);
+                  return res.status(500).json({ erro: "Erro ao gravar fatura", detalhes: err2 });
+                }
+
+                console.log("Fatura criada com sucesso");
+                res.json({ message: "Nova leitura e fatura adicionadas com sucesso" });
+              }
+            );
+          }
+        )
+      }
+
     }
   );
 });

@@ -50,12 +50,8 @@ async function registrar() {
         if (dados.cpf_existe) {
             return alert("Este CPF já está cadastrado no sistema!");
         }
-        if (dados.unidade_existe) {
-            return alert("Esta Unidade Consumidora já está cadastrada no sistema!");
-        }
-        if (dados.nome_existe) {
-            return alert("Este Nome já está cadastrado no sistema!");
-        }
+     
+     
 
         // Verificar limite de contadores
         if (tipo_usuario === '0' && dados.total_contadores >= 2) {
@@ -94,7 +90,7 @@ async function registrar() {
             const loginResponse = await fetch("http://localhost:3000/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ nome, senha })
+                body: JSON.stringify({ cpf, senha })
             });
 
             if (!loginResponse.ok) {

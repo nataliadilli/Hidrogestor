@@ -1,10 +1,10 @@
 async function Entrar() {
     // Coletar dados de entrada
-    const nome = document.getElementById('nome').value;
+    const cpf = document.getElementById('cpf').value;
     const senha = document.getElementById('senha').value;
 
     // Validação básica
-    if (!nome || !senha) {
+    if (!cpf || !senha) {
         alert('Por favor, preencha todos os campos');
         return;
     }
@@ -17,7 +17,7 @@ async function Entrar() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                nome: nome,
+                cpf: cpf,
                 senha: senha
             })
         });
@@ -47,10 +47,10 @@ async function Entrar() {
 
 // Adicionar evento de Enter nos campos
 document.addEventListener('DOMContentLoaded', () => {
-    const nomeInput = document.getElementById('nome');
+    const cpfInput = document.getElementById('cpf');
     const senhaInput = document.getElementById('senha');
 
-    nomeInput.addEventListener('keypress', (event) => {
+    cpfInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             senhaInput.focus();
         }
