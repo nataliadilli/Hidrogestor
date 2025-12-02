@@ -38,7 +38,7 @@ async function registrar() {
 
     // Verificar duplicatas antes de cadastrar
     try {
-        const verificacao = await fetch("http://localhost:3000/verificarDuplicatas", {
+        const verificacao = await fetch("https://hidrogestor-api.onrender.com/verificarDuplicatas", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ cpf, nr_unidadeconsumidora, nome })
@@ -76,7 +76,7 @@ async function registrar() {
 
     alert("Seja bem-vindo " + nome);
 
-    fetch("http://localhost:3000/gravarNovoUsuario", {
+    fetch("https://hidrogestor-api.onrender.com/gravarNovoUsuario", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(objetoCadastro)
@@ -87,7 +87,7 @@ async function registrar() {
 
         // Realizar login automático após o cadastro
         try {
-            const loginResponse = await fetch("http://localhost:3000/login", {
+            const loginResponse = await fetch("https://hidrogestor-api.onrender.com/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ cpf, senha })

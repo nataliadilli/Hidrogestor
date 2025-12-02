@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Carregar dados do residente
     try {
-        const response = await fetch(`http://localhost:3000/listarUsuarios`);
+        const response = await fetch(`https://hidrogestor-api.onrender.com/listarUsuarios`);
         if (!response.ok) throw new Error('Erro ao carregar dados dos residentes.');
 
         const residentes = await response.json();
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:3000/atualizarUsuario/${id}`, {
+            const response = await fetch(`https://hidrogestor-api.onrender.com/atualizarUsuario/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedData)

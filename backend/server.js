@@ -5,13 +5,14 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
   "http://localhost:3000",  
   "http://localhost:5500",  
   "http://127.0.0.1:5500",
-  "https://hidrogestor.onrender.com"
+  "https://hidrogestor.onrender.com",
+  "https://hidrogestor-api.onrender.com"
 ];
 
 app.use(cors({

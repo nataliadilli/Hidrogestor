@@ -65,7 +65,7 @@ function registrar_leitura() {
 
     alert('Enviando leitura:', objetoLeitura);
 
-    fetch("http://localhost:3000/gravarNovaLeitura", {
+    fetch("https://hidrogestor-api.onrender.com/gravarNovaLeitura", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

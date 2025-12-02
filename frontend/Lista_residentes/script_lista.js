@@ -1,5 +1,5 @@
 // Configuração da API
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://hidrogestor-api.onrender.com';
 
 // Variável para armazenar os dados dos residentes
 let residentsData = [];
