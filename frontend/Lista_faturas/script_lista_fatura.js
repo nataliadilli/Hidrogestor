@@ -23,9 +23,9 @@ function createFaturaTableRows(fatura) {
 
     return `
         <tr>
-            <td>${String(fatura.mesLido).padStart(2, '0')}</td>
-            <td>R$ ${parseFloat(fatura.valorFatura).toFixed(2)}</td>
-            <td>${formatDate(fatura.dataLeitura)}</td>
+            <td>${String(fatura.meslido).padStart(2, '0')}</td>
+            <td>R$ ${parseFloat(fatura.valorfatura).toFixed(2)}</td>
+            <td>${formatDate(fatura.dataleitura)}</td>
         </tr>
     `;
 }
