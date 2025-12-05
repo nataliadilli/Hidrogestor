@@ -231,3 +231,59 @@ app.get("/listarLeitura/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+app.get("/exportarLeituras/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await db.query(
+      "SELECT qt_consumo AS quantidadeConsumida, nr_mes AS mesLido, data_registro AS dataLeitura FROM tb_leitura WHERE nr_unidadeconsumidora = $1 ORDER BY nr_mes ASC",
+      [id]
+    );
+
+    if (result.rows.length == 0) {
+
+      return res.status(204).json({ message: "Sem dados para exportar." });
+    }
+
+    const json = result.rows;
+    const parser = new Parser();
+    const csv = parser.parse(json);
+
+    res.header("Content-Type", "text/csv");
+    res.attachment(`leituras_${id}.csv`);
+    return res.send(csv);
+
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao gerar CSV" });
+  }
+});
+
+app.get("/exportarFaturas/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await db.query(
+      `SELECT fatura.nr_mes AS mesLido, fatura.vl_fatura AS valorFatura, fatura.dt_leitura AS dataLeitura
+       FROM tb_fatura fatura
+       WHERE fatura.nr_unidadeconsumidora = $1
+       ORDER BY nr_mes ASC`,
+      [id]
+    );
+    if (result.rows.length == 0) {
+      return res.status(204).json({ message: "Sem dados para exportar." });
+    }
+
+    const json = result.rows;
+    const parser = new Parser();
+    const csv = parser.parse(json);
+
+    res.header("Content-Type", "text/csv");
+    res.attachment(`leituras_${id}.csv`);
+    return res.send(csv);
+
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: "Erro ao gerar CSV" });
+  }
+});

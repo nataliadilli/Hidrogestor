@@ -238,3 +238,47 @@ window.onclick = function (event) {
         closeDeleteModal();
     }
 }
+
+document.getElementById("btnExportarCSV").addEventListener("click", async function () {
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
+    const dadosUsuario = JSON.parse(usuarioLogado);
+    const id = dadosUsuario.nr_unidadeconsumidora;
+
+    if (!id) {
+        alert("ID da unidade não encontrado.");
+        return;
+    }
+
+    try {
+        // Primeiro verifica se tem dados
+        const response = await fetch(`${API_BASE_URL}/exportarLeituras/${id}`, {
+            method: "GET"
+        });
+
+        if (response.status === 204) {
+            alert("Não há dados para gerar o CSV.");
+            return;
+        }
+
+        if (!response.ok) {
+            alert("Erro ao gerar CSV.");
+            return;
+        }
+
+        // Se chegou aqui, tem CSV → baixa o arquivo
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `leituras_${id}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao conectar ao servidor.");
+    }
+});

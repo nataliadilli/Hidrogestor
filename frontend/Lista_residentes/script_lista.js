@@ -64,7 +64,7 @@ function createResidentCard(resident) {
                     </div>
                 </div>
                 <div class="card-actions">
-                    <button class="btn-view" onclick="window.location.href='../Consultar_consumo/index_lista_consumo.html?id=${resident.id_residente}'">
+                    <button class="btn-view" onclick="window.location.href='../Consultar_consumo/index_lista_consumo.html?id=${resident.nr_unidadeconsumidora}'">
                          Consultar
                     </button>
                     <button class="btn-edit" onclick="openEditModal(${resident.id_residente})">

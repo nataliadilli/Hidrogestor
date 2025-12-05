@@ -76,7 +76,8 @@ async function loadData() {
             return;
         }
 
-        const nrUC = usuarioLogado.nr_unidadeconsumidora;
+        const params = new URLSearchParams(window.location.search);
+        const nrUC = Number(params.get("id"));
 
         // Busca paralela (melhor performance)
         const [faturas, leituras] = await Promise.all([

@@ -1,95 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Consultar Residente - HidroGestor</title>
-
-    <link rel="stylesheet" href="style_lista_consumo.css" />
-
-    <!-- O JS será carregado no final do body -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de faturas</title>
+    <link rel="stylesheet" href="style_lista_fatura.css">
 </head>
 
 <body>
-
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="nav-container">
-            <span class="logo">HidroGestor</span>
-
-            <div class="user-info">
-                <span>Usuário Logado</span>
-                <button class="btn-sair" onclick="window.location.href='../Pagina_principal/index_principal.html'">
-                    Sair
-                </button>
-            </div>
-        </div>
+    <header>
+        <nav>
+            <ul>
+                <li> <a href="../Pagina_principal/index_principal.html"> Página Principal</a></li>
+                <li>
+                    <button class="btn-export" id="btnExportarCSV">Exportar CSV</button>
+                </li>
+            </ul>
+        </nav>
     </header>
 
-    <main class="main-content">
-        <div class="container">
+    <div class="container">
+        <header class="page-header">
+            <h1>Listagem faturas</h1>
 
-            <section class="header-section">
-                <h2>Informações do Residente</h2>
-                <p>Consulte abaixo as leituras e faturas deste usuário.</p>
-            </section>
+        </header>
 
-            <div class="cards-wrapper">
+        <main class="content">
 
+            <table id="faturasTable" class="fatura-table" style="display: none;">
 
-                <!-- CARD DE FATURAS -->
-                <div class="info-card faturas">
+                <thead>
+                    <tr>
+                        <th>Mês Lido</th>
+                        <th>Valor da Fatura</th>
+                        <th>Data de Leitura</th>
+                    </tr>
+                </thead>
+                <tbody id="residentsList"></tbody>
+            </table>
 
-                    <h3>Faturas</h3>
-
-                    <!-- Loading -->
-                    <div id="faturasLoading" class="loading">
-                        <p>Carregando faturas...</p>
-                    </div>
-
-                    <!-- Lista -->
-                    <ul id="listaFaturas" style="display: none;"></ul>
-
-                    <!-- Estado vazio -->
-                    <div id="faturasEmpty" class="empty-state" style="display: none;">
-                        <p>Nenhuma fatura encontrada</p>
-                    </div>
-
-                </div>
-
-                
-                <!-- CARD DE LEITURAS -->
-                <div class="info-card leituras">
-
-                    <h3>Leituras</h3>
-
-                    <!-- Loading -->
-                    <div id="leiturasLoading" class="loading">
-                        <p>Carregando leituras...</p>
-                    </div>
-
-                    <!-- Lista -->
-                    <ul id="listaLeituras" style="display: none;"></ul>
-
-                    <!-- Estado vazio -->
-                    <div id="leiturasEmpty" class="empty-state" style="display: none;">
-                        <p>Nenhuma leitura encontrada</p>
-                    </div>
-
-                </div>
-
+            <div class="loading" id="loading">
+                <p>Carregando faturas...</p>
             </div>
 
-        </div>
-    </main>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <p>Nenhuma fatura encontrada para esta unidade consumidora</p>
+            </div>
+        </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; HidroGestor</p>
-        </div>
-    </footer>
+    </div>
 
-    <script src="script_lista_consumo.js"></script>
-
+    <script src="script_lista_fatura.js"></script>
 </body>
+
+<footer class="final-footer">
+    <p>&copy; HidroGestor</p>
+</footer>
+
 </html>
