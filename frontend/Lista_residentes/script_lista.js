@@ -64,11 +64,14 @@ function createResidentCard(resident) {
                     </div>
                 </div>
                 <div class="card-actions">
-                    <button class="btn-delete" onclick="openDeleteModal(${resident.id_residente}, '${resident.tx_nome}')">
-                         Excluir
+                    <button class="btn-view" onclick="window.location.href='../Consultar_consumo/index_lista_consumo.html?id=${resident.id_residente}'">
+                         Consultar
                     </button>
                     <button class="btn-edit" onclick="openEditModal(${resident.id_residente})">
                          Editar
+                    </button>
+                     <button class="btn-delete" onclick="openDeleteModal(${resident.id_residente}, '${resident.tx_nome}')">
+                         Excluir
                     </button>
                 </div>
             </div>

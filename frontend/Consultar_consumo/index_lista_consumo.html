@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consultar Residente - HidroGestor</title>
+    <link rel="stylesheet" href="style_lista_consumo.css" />
+    <script src="script_lista_consumo.js"></script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <span class="logo">HidroGestor</span>
+
+            <div class="info">
+                <button class="btn-voltar" onclick="window.location.href='../Pagina_principal/index_principal.html'">
+                    Voltar
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+
+            <section class="header-section">
+                <h2>Informações do Residente</h2>
+                <p>Consulte abaixo as leituras e faturas deste usuário.</p>
+            </section>
+
+            <div class="cards-wrapper">
+
+                <!-- Card Faturas -->
+                <div class="info-card faturas">
+                    <h3>Faturas</h3>
+                    <ul id="listaFaturas">
+                        <li>Carregando faturas...</li>
+                    </ul>
+                </div>
+
+                <!-- Card Leituras -->
+                <div class="info-card leituras">
+                    <h3>Leituras</h3>
+                    <ul id="listaLeituras">
+                        <li>Carregando leituras...</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; HidroGestor</p>
+        </div>
+    </footer>
+
+    <script src="script_consultar.js"></script>
+</body>
+</html>
