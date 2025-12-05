@@ -16,12 +16,6 @@ function carregarInformacoesUsuario() {
             // Verificar diferentes possíveis campos de nome
             const nomeUsuario = dadosUsuario.tx_nome || dadosUsuario.nome || 'Usuário';
 
-            // Atualizar nome do usuário na interface
-            const elementoNome = document.getElementById('usuario-nome');
-            if (elementoNome) {
-                elementoNome.textContent = `${nomeUsuario}, você está acessando a área de registro de consumo!`;
-            }
-
             // Armazenar tipo de usuário para verificações posteriores
             window.tipoUsuario = dadosUsuario.tipo_usuario;
 
