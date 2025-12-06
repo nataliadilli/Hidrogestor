@@ -287,6 +287,8 @@ async function confirmDelete() {
             confirmBtn.textContent = 'Excluir';
         }
     }
+
+    location.reload();
 }
 
 // Função para abrir a página de edição de residente
