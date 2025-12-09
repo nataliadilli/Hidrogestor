@@ -508,4 +508,5 @@ body {
 .btn-export:hover {
     transform: translateY(-2px);
     background: linear-gradient(135deg, #2f855a 0%, #276749 100%);
-    box
+    box-shadow: 0 6px 18px rgba(56, 161, 105, 0.4);
+}
