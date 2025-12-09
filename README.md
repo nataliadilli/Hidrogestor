@@ -58,6 +58,8 @@ Giovani Pedro Zanatta;
 
 Natália Carolina Dilli;
 
+Luiz Felipe Degani Demarck;
+
 Projeto desenvolvido para [Curso de análise e desenvolvimento de sistemas /Universidade do Oeste de Santa Catarina– UNOESC/Comunidade Olho D'Água].
 
 ## 🗃️ Criação do banco de dados
@@ -126,4 +128,5 @@ select * from tb_fatura;
 - O campo tipo_usuario utiliza valor padrão 1 (ativo)
 - Todos os campos de data utilizam TIMESTAMP com valor padrão CURRENT_TIMESTAMP
 - Os valores monetários são armazenados como DECIMAL para precisão
+
 
