@@ -74,11 +74,11 @@ CREATE DATABASE gestor;
 
 ```sql
 CREATE TABLE tb_residente (
-    id_residente INT auto_increment primary key,
+    id_residente SERIAL PRIMARY KEY,
     tx_nome VARCHAR(150) NOT NULL,
     nr_unidadeconsumidora VARCHAR(150) NOT NULL,
     tx_cpf VARCHAR(14) NOT NULL,
-    tipo_usuario BOOLEAN NOT NULL DEFAULT 1,
+    tipo_usuario SMALLINT NOT NULL DEFAULT 1,
     tx_senha VARCHAR(255) NOT NULL,
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (nr_unidadeconsumidora, tx_cpf)
@@ -89,10 +89,10 @@ CREATE TABLE tb_residente (
 
 ```sql
 CREATE TABLE tb_leitura (
-    id_registroconsumo INT AUTO_INCREMENT PRIMARY KEY,
+    id_registroconsumo SERIAL PRIMARY KEY,
     nr_unidadeconsumidora VARCHAR(150) NOT NULL,
-    qt_consumo DECIMAL(10,2) NOT NULL,
-    nr_mes TINYINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
+    qt_consumo NUMERIC(10,2) NOT NULL,
+    nr_mes SMALLINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
     data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (nr_unidadeconsumidora, nr_mes)
 );
@@ -102,10 +102,10 @@ CREATE TABLE tb_leitura (
 
 ```sql
 CREATE TABLE tb_fatura (
-    id_fatura INT AUTO_INCREMENT PRIMARY KEY,
-    nr_mes TINYINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
+    id_fatura SERIAL PRIMARY KEY,
+    nr_mes SMALLINT NOT NULL CHECK (nr_mes BETWEEN 1 AND 12),
     dt_leitura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    vl_fatura numeric(18,2) NOT NULL,
+    vl_fatura NUMERIC(18,2) NOT NULL,
     nr_unidadeconsumidora VARCHAR(150) NOT NULL
 );
 ```
@@ -128,5 +128,6 @@ select * from tb_fatura;
 - O campo tipo_usuario utiliza valor padrão 1 (ativo)
 - Todos os campos de data utilizam TIMESTAMP com valor padrão CURRENT_TIMESTAMP
 - Os valores monetários são armazenados como DECIMAL para precisão
+
 
 
