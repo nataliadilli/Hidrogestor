@@ -29,7 +29,7 @@ O sistema permite:
 
 - **Frontend:** HTML, CSS, JavaScript;
 - **Backend:** Node.js;
-- **Banco de Dados:** MySQL.
+- **Banco de Dados:** PostgreSQL.
 ---
 
 ## 🧩 Diagramas do Sistema
@@ -126,3 +126,4 @@ select * from tb_fatura;
 - O campo tipo_usuario utiliza valor padrão 1 (ativo)
 - Todos os campos de data utilizam TIMESTAMP com valor padrão CURRENT_TIMESTAMP
 - Os valores monetários são armazenados como DECIMAL para precisão
+
